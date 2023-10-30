@@ -1,0 +1,4 @@
+enum AATKitBannerType {
+  sticky,
+  cached,
+}

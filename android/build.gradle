@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = '1.9.10'
     repositories {
         google()
         mavenCentral()
@@ -15,6 +15,34 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        jcenter()
+        maven {
+            url 'https://android-sdk.aatkit.com/maven/'
+        }
+        maven { url "https://s3.amazonaws.com/smaato-sdk-releases/" } //Smaato repository
+        maven { url 'https://verve.jfrog.io/artifactory/verve-gradle-release' } //PubNative repository
+        maven { //ironSource repository
+            url 'https://android-sdk.is.com/'
+        }
+        maven { //Bluestack repository
+            credentials {
+                username "madvertise-maven"
+                password "GpdGZ9GE9SK7ByWdM987"
+            }
+            url "https://api.bitbucket.org/2.0/repositories/mngcorp/deploy-maven-bluestack/src/master"
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+        maven {
+            url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea"
+        }
+        maven {
+            url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea"
+        }
+        maven {
+            url 'https://maven.ogury.co'
+        }
     }
 }
 
