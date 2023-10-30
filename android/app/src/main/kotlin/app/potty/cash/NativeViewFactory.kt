@@ -1,4 +1,4 @@
-package app.potty.cash
+package com.addapttr.flutter_binding
 
 import android.content.Context
 import io.flutter.plugin.common.BinaryMessenger

@@ -1,4 +1,4 @@
-package app.potty.cash
+package com.addapttr.flutter_binding
 
 import android.app.Activity
 import android.app.Application
@@ -107,6 +107,8 @@ class AATKitBinding(val application: Application, val activity: Activity) {
     // Adjust AATKit configuration to your needs
     private fun initAATKit(): Any? {
         val configuration = AATKitConfiguration(application)
+
+        configuration.setTestModeAccountId(74);
 
         //Comment out the bellow line if Google CMP is needed
         // configureGoogleCMP(configuration)

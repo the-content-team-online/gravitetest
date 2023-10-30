@@ -1,4 +1,4 @@
-package app.potty.cash
+package com.addapttr.flutter_binding
 
 import com.intentsoftware.addapptr.ManagedConsent
 import io.flutter.plugin.common.MethodChannel
