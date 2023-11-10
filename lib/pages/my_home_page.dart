@@ -23,6 +23,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   static final AATKitBinding _aatKitBinding = AATKitBinding();
   bool _showBanner = false;
+  List<String> _rewardedAdViews = List.empty(growable: true);
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +111,39 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: const Text("Show banner"),
               ),
+
+            const SizedBox(height: 30),
+
+            OutlinedButton(
+              onPressed: () {
+                _aatKitBinding.onUserEarnedIncentive = onUserEarnedIncentive;
+                _aatKitBinding.createRewardedPlacement().then((value) {
+                  print("[DEBUG] createRewardedPlacement success");
+                  startRewardedAutoReload();
+                }).onError((error, stackTrace) {
+                  print(
+                    "[DEBUG] createRewardedPlacement\nerr: $error\nstackTrace: $stackTrace",
+                  );
+                });
+              },
+              child: const Text("Create rewarded placement"),
+            ),
+            OutlinedButton(
+              onPressed: () {
+                _aatKitBinding.showRewarded().then((value) {
+                  print("[DEBUG] showRewarded success");
+                }).onError((error, stackTrace) {
+                  print(
+                    "[DEBUG] showRewarded\nerr: $error\nstackTrace: $stackTrace",
+                  );
+                });
+              },
+              child: const Text("Show rewarded ad"),
+            ),
+            Expanded(
+              child: rewardedAdList(),
+            ),
+            // rewardedAdList(),
           ],
         ),
       ),
@@ -120,5 +154,43 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     _aatKitBinding.destroyBannerCache();
     super.dispose();
+  }
+
+  Widget rewardedAdList() {
+    print("[DEBUG] listing rewarded views, this be all: $_rewardedAdViews");
+
+    return ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemCount: _rewardedAdViews.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            height: 30,
+            color: index % 2 == 0 ? Colors.amberAccent : Colors.amber,
+            child: Center(child: Text('Rewarded video view #${index + 1}')),
+          );
+        });
+  }
+
+  void startRewardedAutoReload() {
+    _aatKitBinding.startRewardedAutoReload().then((value) {
+      print("[DEBUG] startRewardedAutoReload success");
+    }).onError((error, stackTrace) {
+      print(
+        "[DEBUG] startRewardedAutoReload\nerr: $error\nstackTrace: $stackTrace",
+      );
+    });
+  }
+
+  void onUserEarnedIncentive(AATKitReward reward) {
+    print("[DEBUG] onUserEarnedIncentive"
+        "placementName: ${reward.placementName} "
+        "rewardName: ${reward.rewardName} "
+        "rewardValue: ${reward.rewardValue} ");
+
+    setState(() {
+      _rewardedAdViews.add(
+        "${reward.rewardName} (${reward.rewardValue})",
+      );
+    });
   }
 }
