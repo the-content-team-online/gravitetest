@@ -1,4 +1,4 @@
-package com.addapttr.flutter_binding
+package app.potty.cash
 
 import android.content.Context
 import android.view.View

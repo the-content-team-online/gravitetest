@@ -1,4 +1,4 @@
-package com.addapttr.flutter_binding
+package app.potty.cash
 
 import com.intentsoftware.addapptr.BannerCache
 import io.flutter.plugin.common.MethodChannel

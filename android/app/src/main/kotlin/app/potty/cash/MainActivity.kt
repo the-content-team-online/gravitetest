@@ -1,4 +1,4 @@
-package com.addapttr.flutter_binding
+package app.potty.cash
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
