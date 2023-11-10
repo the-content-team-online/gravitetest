@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cash/aatkit/aatkit_banner.dart';
 import 'package:cash/aatkit/aatkit_binding.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static final AATKitBinding _aatKitBinding = AATKitBinding();
+
+  final Duration stickyBannerReloadInterval = Duration(seconds: 30);
+  Widget? _banner;
   bool _showBanner = false;
+
   List<String> _rewardedAdViews = List.empty(growable: true);
 
   @override
@@ -78,6 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             OutlinedButton(
               onPressed: () {
+                _aatKitBinding.firstBannerLoaded = firstBannerLoaded;
+
                 _aatKitBinding
                     .createBannerCache()
                     .then((value) => print("[DEBUG] createBannerCache success"))
@@ -100,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: const Text("Hide banner"),
               ),
-            if (_showBanner) AATKitBanner(),
+            if (_showBanner && _banner != null) _banner!,
             // if banner is NOT SHOWN
             if (!_showBanner)
               OutlinedButton(
@@ -191,6 +199,16 @@ class _MyHomePageState extends State<MyHomePage> {
       _rewardedAdViews.add(
         "${reward.rewardName} (${reward.rewardValue})",
       );
+    });
+  }
+
+  void firstBannerLoaded() {
+    print("[DEBUG] first banner loaded");
+    _banner = AATKitBanner(key: UniqueKey());
+
+    Timer.periodic(stickyBannerReloadInterval, (timer) {
+      print("[DEBUG] reloading sticky banner");
+      setState(() => _banner = AATKitBanner(key: UniqueKey()));
     });
   }
 }
